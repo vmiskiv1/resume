@@ -1,13 +1,24 @@
-import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { Button, CircularProgress, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import styles from './InputText.module.scss';
-import { useAppDispatch } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { getUserData } from "@redux/thunks/user";
+import { useNavigate } from "react-router-dom";
+import { userDataSelector } from "@redux/slices/user";
 
 export const InputText = () => {
   const [value, setValue] = useState('');
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { user, loading, error } = useAppSelector(userDataSelector);
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${user.login}`)
+    }
+  }, [user])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -34,7 +45,15 @@ export const InputText = () => {
         onKeyDown={handleKeyDown}
         sx={{ width: '100%' }}
       />
-      <Button variant="contained" onClick={handleSumbit}>Search</Button>
+      <Button
+        variant="contained"
+        onClick={handleSumbit}
+      >
+        {!loading ? `Search` : <CircularProgress />}
+      </Button>
+      <Typography variant="h5" color="error">
+        {error}
+      </Typography>
     </div>
   )
 }

@@ -10,7 +10,8 @@ export default defineConfig({
       '@sass': path.resolve(__dirname, 'src/sass'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@api': path.resolve(__dirname, 'src/api'),
-      '@redux': path.resolve(__dirname, 'src/redux')
+      '@redux': path.resolve(__dirname, 'src/redux'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
     }
   }
 })

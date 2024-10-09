@@ -1,0 +1,43 @@
+.resume {
+  background-color: rgb(234, 232, 230);
+  min-height: 100vh;
+}
+
+.userCardWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.userCard {
+  width: 700px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.description {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.userCardUnderline {
+  border-bottom: 1px solid #e4e3e3;
+}
+
+.pieChartLoader {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.chart {
+  border: 1px solid #e4e3e3;
+  padding: 30px 10px;
+}
+
+.reposAmount {
+  padding: 20px 0;
+}

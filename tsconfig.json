@@ -31,6 +31,9 @@
       "@redux/*": [
         "./src/redux/*"
       ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
     },
     "strictNullChecks": false
   },
