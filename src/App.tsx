@@ -1,10 +1,10 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from './views/Home/Home';
-import { Resume } from './views/Resume/Resume';
+import { Home } from './pages/Home/Home';
+import { Resume } from './pages/Resume/Resume';
+import React from 'react';
 
-function App() {
-
+const App = () => {
   return (
     <Router>
       <Routes>

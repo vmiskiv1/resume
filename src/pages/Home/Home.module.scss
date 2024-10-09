@@ -1,0 +1,15 @@
+@import '@sass/_mixins.scss';
+
+.home {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(95, 60, 127, 1) 100%, rgba(5, 106, 185, 1) 100%, rgba(0, 212, 255, 1) 100%);
+
+  @include mobile {
+    padding: 0px 20px;
+  }
+}
