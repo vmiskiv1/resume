@@ -5,9 +5,6 @@ import { Typography } from '@mui/material';
 export const Home = () => {
   return (
     <div className={styles.home}>
-      <Typography variant="h2" component="h2" gutterBottom sx={{ color: 'white' }}>
-        Github profile finder
-      </Typography>
       <InputText />
     </div >
   )

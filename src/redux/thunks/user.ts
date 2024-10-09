@@ -29,19 +29,18 @@ export const getUserData = createAsyncThunk('user/getUserData', async (username:
       throw new Error(userReposResponse.message);
     }
 
-    const { name, login, avatar_url, html_url, repos_url, public_repos, created_at } = userInfoResponse;
+    const { name, login, bio, avatar_url, html_url, repos_url, public_repos, created_at } = userInfoResponse;
 
     const repos = userReposResponse.map(({ name, languages_url, updated_at, html_url
     }: RepoData) => ({
       name, languages_url, updated_at, html_url
     }));
 
-    console.log(userReposResponse);
-
     return {
       user: {
         name,
         login,
+        bio,
         avatar_url,
         html_url,
         repos_url,

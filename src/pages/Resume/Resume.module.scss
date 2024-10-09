@@ -3,21 +3,32 @@
   min-height: 100vh;
 }
 
+.userNotFound {
+  height: 100vh;
+  display: flex;
+  gap: 7px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .userCardWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 30px 0;
 }
 
 .userCard {
   width: 700px;
   background-color: white;
-  padding: 20px;
+  padding: 45px 30px;
   border-radius: 10px;
 }
 
 .description {
+  margin-top: 7px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;

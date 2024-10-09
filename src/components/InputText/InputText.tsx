@@ -8,6 +8,7 @@ import { userDataSelector } from "@redux/slices/user";
 
 export const InputText = () => {
   const [value, setValue] = useState('');
+  const [isSearchInitiated, setIsSearchInitiated] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -15,8 +16,9 @@ export const InputText = () => {
   const { user, loading, error } = useAppSelector(userDataSelector);
 
   useEffect(() => {
-    if (user) {
-      navigate(`/${user.login}`)
+    if (isSearchInitiated && user) {
+      navigate(`/${user.login}`);
+      setIsSearchInitiated(false);
     }
   }, [user])
 
@@ -25,6 +27,8 @@ export const InputText = () => {
   }
 
   const handleSumbit = async () => {
+    setIsSearchInitiated(true);
+
     dispatch(getUserData(value));
   }
 
@@ -36,24 +40,34 @@ export const InputText = () => {
 
   return (
     <div className={styles.inputTextWrapper}>
+      <Typography
+        variant="h5"
+        component="h2"
+        gutterBottom
+        sx={{ textAlign: 'center' }}
+      >
+        Github profile finder
+      </Typography>
+
       <TextField
-        id="filled-basic"
+        id="outlined-search"
         label="Enter a github username"
-        variant="filled"
+        type="search"
         value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        sx={{ width: '100%' }}
-      />
+        sx={{ width: '100%' }} />
       <Button
         variant="contained"
         onClick={handleSumbit}
       >
-        {!loading ? `Search` : <CircularProgress />}
+        {!loading ? `Search` : <CircularProgress size={24} sx={{ color: '#fff' }} />}
       </Button>
-      <Typography variant="h5" color="error">
-        {error}
-      </Typography>
+      <div className={styles.inputTextError}>
+        <Typography variant="subtitle1" color="warning">
+          {error}
+        </Typography>
+      </div>
     </div>
   )
 }
