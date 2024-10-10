@@ -4,6 +4,8 @@
   background-color: $white;
   padding: 45px 30px;
   border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
 }
 
 .description {
@@ -22,6 +24,7 @@
 .chart {
   padding: 30px 10px;
   border: 1px solid $border-section;
+  overflow: hidden;
 }
 
 .reposAmount {

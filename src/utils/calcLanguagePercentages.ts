@@ -18,7 +18,9 @@ export const calculateLanguagePercentages = (
   );
   const othersLanguagesPercentage = (100 - mainLanguagesSum).toFixed(2);
 
-  if (Number(othersLanguagesPercentage) > 0) {
+  console.log(mainLanguages);
+
+  if (Number(othersLanguagesPercentage) > 0 && mainLanguages.length) {
     mainLanguages.push({
       id: mainLanguages.length,
       value: parseFloat(othersLanguagesPercentage),

@@ -18,7 +18,6 @@ import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { userDataSelector } from "@redux/slices/user";
 import { getUserLanguagePercentage } from "@redux/thunks/user";
 import { RepoData } from "@redux/thunks/user/types";
-import { addDataRows } from "@utils/addDataRows";
 import { formattedDate } from "@utils/formattedDate";
 import { getChartProps } from "@utils/getPieChartProps";
 import { useEffect, useMemo } from "react";
@@ -43,8 +42,6 @@ export const UserCard = () => {
     }
   }, [repos, dispatch]);
 
-  const rows = useMemo(() => repos.map(addDataRows), [repos]);
-
   return (
     <div className={styles.userCard}>
       <Typography
@@ -53,7 +50,7 @@ export const UserCard = () => {
           textTransform: "uppercase",
         }}
       >
-        {user.name}
+        {user.name || "Github user"}
       </Typography>
       <Typography variant="subtitle1">{user.bio}</Typography>
       <div className={styles.description}>
@@ -125,18 +122,18 @@ export const UserCard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row: RepoData) => (
+                {repos.map((repo: RepoData) => (
                   <TableRow
-                    key={row.id}
+                    key={repo.id}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}
                   >
                     <TableCell component="th" scope="row">
-                      <Link href={row.html_url}>{row.name}</Link>
+                      <Link href={repo.html_url}>{repo.name}</Link>
                     </TableCell>
                     <TableCell align="right">
-                      {formattedDate(row.updated_at)}
+                      {formattedDate(repo.updated_at)}
                     </TableCell>
                   </TableRow>
                 ))}

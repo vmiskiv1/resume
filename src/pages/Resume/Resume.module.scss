@@ -4,10 +4,6 @@
 .resume {
   background-color: rgb(234, 232, 230);
   min-height: 100vh;
-
-  @include mobile {
-    padding: 0px 20px;
-  }
 }
 
 .userNotFound {
@@ -24,5 +20,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 0;
+  padding: 30px 15px;
+
+  @include mobile {
+    padding: 0px 15px;
+  }
 }
