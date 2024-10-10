@@ -1,7 +1,6 @@
 @import "@sass/vars";
 
 .userCard {
-  width: 700px;
   background-color: $white;
   padding: 45px 30px;
   border-radius: 10px;
@@ -21,8 +20,8 @@
 }
 
 .chart {
-  border: 1px solid $border-section;
   padding: 30px 10px;
+  border: 1px solid $border-section;
 }
 
 .reposAmount {

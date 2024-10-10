@@ -1,3 +1,4 @@
+import { useWindowSize } from "@hooks/useWindowSize";
 import {
   Box,
   Button,
@@ -19,6 +20,7 @@ import { getUserLanguagePercentage } from "@redux/thunks/user";
 import { RepoData } from "@redux/thunks/user/types";
 import { addDataRows } from "@utils/addDataRows";
 import { formattedDate } from "@utils/formattedDate";
+import { getChartProps } from "@utils/getPieChartProps";
 import { useEffect, useMemo } from "react";
 import styles from "./UserCard.module.scss";
 
@@ -27,6 +29,13 @@ export const UserCard = () => {
     useAppSelector(userDataSelector);
 
   const dispatch = useAppDispatch();
+
+  const [width] = useWindowSize();
+
+  const { legendProps, chartDimensions } = useMemo(
+    () => getChartProps(width),
+    [width]
+  );
 
   useEffect(() => {
     if (repos) {
@@ -80,8 +89,11 @@ export const UserCard = () => {
                   data: reposByPercentage,
                 },
               ]}
-              width={500}
-              height={200}
+              slotProps={{
+                legend: legendProps,
+              }}
+              width={chartDimensions.width}
+              height={chartDimensions.height}
             />
           )}
         </div>
@@ -101,7 +113,7 @@ export const UserCard = () => {
           </Box>
         ) : (
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>
