@@ -1,61 +1,14 @@
-import {
-  Button,
-  CircularProgress,
-  Link,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { PieChart } from "@mui/x-charts/PieChart";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { UserCard } from "@components/UserCard/UserCard";
+import { Button, Typography } from "@mui/material";
+import { useAppSelector } from "@redux/hooks";
 import { userDataSelector } from "@redux/slices/user";
-import { getUserLanguagePercentage } from "@redux/thunks/user";
-import { RepoData } from "@redux/thunks/user/types";
-import { formattedDate } from "@utils/formattedDate";
-import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./Resume.module.scss";
 
 export const Resume = () => {
-  const { user, repos, reposByPercentage, loading } =
-    useAppSelector(userDataSelector);
-
-  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(userDataSelector);
 
   const { username } = useParams();
-
-  useEffect(() => {
-    if (repos) {
-      dispatch(getUserLanguagePercentage(repos));
-    }
-  }, [repos, dispatch]);
-
-  function createData(
-    id: number,
-    name: string,
-    languages_url: string,
-    updated_at: string,
-    html_url: string
-  ) {
-    return { id, name, languages_url, updated_at, html_url };
-  }
-
-  const rows = useMemo(() => {
-    return repos.map((repo: RepoData) =>
-      createData(
-        repo.id,
-        repo.name,
-        repo.languages_url,
-        repo.updated_at,
-        repo.html_url
-      )
-    );
-  }, [repos]);
 
   return (
     <div className={styles.resume}>
@@ -66,7 +19,8 @@ export const Resume = () => {
         </div>
       ) : (
         <div className={styles.userCardWrapper}>
-          <div className={styles.userCard}>
+          <UserCard />
+          {/* <div className={styles.userCard}>
             <Typography
               variant="h3"
               sx={{
@@ -90,55 +44,81 @@ export const Resume = () => {
               </div>
             ) : (
               <div className={styles.chart}>
-                <PieChart
-                  series={[
-                    {
-                      highlightScope: { fade: "global", highlight: "item" },
-                      data: reposByPercentage,
-                    },
-                  ]}
-                  width={500}
-                  height={200}
-                />
+                {!reposByPercentage.length ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    height="100%"
+                  >
+                    <Typography color="warning">
+                      No data about used languages
+                    </Typography>
+                  </Box>
+                ) : (
+                  <PieChart
+                    series={[
+                      {
+                        highlightScope: { fade: "global", highlight: "item" },
+                        data: reposByPercentage,
+                      },
+                    ]}
+                    width={500}
+                    height={200}
+                  />
+                )}
               </div>
             )}
             <div className={styles.reposAmount}>
               Amount of repos: {user.public_repos}
             </div>
             <div>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <Typography>Repository</Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>Last update</Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row: RepoData) => (
-                      <TableRow
-                        key={row.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Link href={row.html_url}>{row.name}</Link>
+              {!repos.length ? (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="100%"
+                >
+                  <Typography color="warning">
+                    No public repositories
+                  </Typography>
+                </Box>
+              ) : (
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <Typography>Repository</Typography>
                         </TableCell>
                         <TableCell align="right">
-                          {formattedDate(row.updated_at)}
+                          <Typography>Last update</Typography>
                         </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row: RepoData) => (
+                        <TableRow
+                          key={row.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            <Link href={row.html_url}>{row.name}</Link>
+                          </TableCell>
+                          <TableCell align="right">
+                            {formattedDate(row.updated_at)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

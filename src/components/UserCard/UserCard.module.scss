@@ -1,0 +1,30 @@
+@import "@sass/vars";
+
+.userCard {
+  width: 700px;
+  background-color: $white;
+  padding: 45px 30px;
+  border-radius: 10px;
+}
+
+.description {
+  margin-top: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.pieChartLoader {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.chart {
+  border: 1px solid $border-section;
+  padding: 30px 10px;
+}
+
+.reposAmount {
+  padding: 20px 0;
+}
