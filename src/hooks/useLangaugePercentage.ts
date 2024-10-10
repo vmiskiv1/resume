@@ -1,4 +1,3 @@
-import { getUserLanguagePercentage } from "@redux/thunks/user";
 import { aggregateLanguageData } from "@utils/languageagregation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,7 +12,9 @@ export const useLanguagePercentage = (repos: any[]) => {
 
       for (const repo of repos) {
         try {
-          const data = await dispatch(getUserLanguagePercentage(repo)).unwrap();
+          // const data = await dispatch(getUserLanguagePercentage(repo)).unwrap();
+
+          const data: any[] = [];
 
           aggregatedData.push(...data);
         } catch (error) {
