@@ -1,10 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/user';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import userReducer from "./slices/user";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
 };
 
@@ -14,7 +14,14 @@ const store = configureStore({
   reducer: {
     user: persistedReducer,
   },
-  devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST"],
+        ignoredPaths: ["register"],
+      },
+    }),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export const persistor = persistStore(store);

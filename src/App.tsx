@@ -1,8 +1,7 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home/Home';
-import { Resume } from './pages/Resume/Resume';
-import React from 'react';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "./App.css";
+import { Home } from "./pages/Home";
+import { Resume } from "./pages/Resume";
 
 const App = () => {
   return (
@@ -12,7 +11,7 @@ const App = () => {
         <Route path="/:username" element={<Resume />} />
       </Routes>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

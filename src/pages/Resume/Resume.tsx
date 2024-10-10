@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { userDataSelector } from "@redux/slices/user";
 import { getUserLanguagePercentage, RepoData } from "@redux/thunks/user";
 import { formattedDate } from "@utils/formattedDate";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./Resume.module.scss";
 
@@ -43,9 +43,11 @@ export const Resume = () => {
     return { name, languages_url, updated_at, html_url };
   }
 
-  const rows = repos.map((repo: RepoData) =>
-    createData(repo.name, repo.languages_url, repo.updated_at, repo.html_url)
-  );
+  const rows = useMemo(() => {
+    return repos.map((repo: RepoData) =>
+      createData(repo.name, repo.languages_url, repo.updated_at, repo.html_url)
+    );
+  }, [repos]);
 
   return (
     <div className={styles.resume}>
@@ -111,7 +113,7 @@ export const Resume = () => {
                   <TableBody>
                     {rows.map((row: RepoData) => (
                       <TableRow
-                        key={row.name}
+                        key={row.id}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}

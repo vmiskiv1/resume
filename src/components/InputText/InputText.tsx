@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import { userDataSelector } from "@redux/slices/user";
+import { clearError, userDataSelector } from "@redux/slices/user";
 import { getUserData } from "@redux/thunks/user";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ import styles from "./InputText.module.scss";
 
 export const InputText = () => {
   const [value, setValue] = useState("");
+  const [inputTextError, setInputTextError] = useState("");
+
   const [isSearchInitiated, setIsSearchInitiated] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -17,6 +19,10 @@ export const InputText = () => {
   const { user, loading, error } = useAppSelector(userDataSelector);
 
   useEffect(() => {
+    if (error) {
+      dispatch(clearError());
+    }
+
     if (isSearchInitiated && user) {
       navigate(`/${user.login}`);
       setIsSearchInitiated(false);
@@ -27,15 +33,22 @@ export const InputText = () => {
     setValue(e.target.value);
   };
 
-  const handleSumbit = async () => {
+  const handleSubmit = async () => {
     setIsSearchInitiated(true);
+
+    if (value.length < 2) {
+      setInputTextError("Username must be at least 2 characters long.");
+      setIsSearchInitiated(false);
+
+      return;
+    }
 
     dispatch(getUserData(value));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSumbit();
+      handleSubmit();
     }
   };
 
@@ -49,17 +62,17 @@ export const InputText = () => {
       >
         Github profile finder
       </Typography>
-
       <TextField
         id="outlined-search"
         label="Enter a github username"
         type="search"
         value={value}
+        error={!!inputTextError}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         sx={{ width: "100%" }}
       />
-      <Button variant="contained" onClick={handleSumbit}>
+      <Button variant="contained" onClick={handleSubmit}>
         {!loading ? (
           `Search`
         ) : (
@@ -67,6 +80,12 @@ export const InputText = () => {
         )}
       </Button>
       <div className={styles.inputTextError}>
+        {inputTextError && (
+          <Typography variant="subtitle1" color="warning">
+            {inputTextError}
+          </Typography>
+        )}
+
         <Typography variant="subtitle1" color="warning">
           {error}
         </Typography>

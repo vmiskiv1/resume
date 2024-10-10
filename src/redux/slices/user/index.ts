@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSlice } from '@reduxjs/toolkit';
-import { getUserData, getUserLanguagePercentage } from '../thunks/user';
-
-interface InitialState {
-  user: any;
-  repos: any;
-  reposByPercentage: any;
-  loading: boolean;
-  error: string | null;
-}
+import { createSlice } from "@reduxjs/toolkit";
+import { getUserData, getUserLanguagePercentage } from "../../thunks/user";
+import { InitialState } from "./types";
 
 const initialState: InitialState = {
   user: null,
@@ -19,24 +12,31 @@ const initialState: InitialState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearError(state) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserData.pending, (state) => {
         state.loading = true;
+
         state.error = null;
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         const { user, repos } = action.payload;
 
         state.loading = false;
+
         state.user = user;
         state.repos = repos;
       })
       .addCase(getUserData.rejected, (state, action) => {
         state.loading = false;
+
         state.error = action.error.message;
         state.user = null;
       })
@@ -46,10 +46,12 @@ const userSlice = createSlice({
       })
       .addCase(getUserLanguagePercentage.fulfilled, (state, action) => {
         state.loading = false;
+
         state.reposByPercentage = action.payload;
       })
       .addCase(getUserLanguagePercentage.rejected, (state, action) => {
         state.loading = false;
+
         state.error = action.error.message;
         state.reposByPercentage = null;
       });
@@ -57,5 +59,7 @@ const userSlice = createSlice({
 });
 
 export const userDataSelector = (state: { user: InitialState }) => state.user;
+
+export const { clearError } = userSlice.actions;
 
 export default userSlice.reducer;

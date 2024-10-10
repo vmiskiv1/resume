@@ -1,4 +1,4 @@
-import { InputText } from "@components/InputText/InputText";
+import { InputText } from "@components/InputText";
 import styles from "./Home.module.scss";
 
 export const Home = () => {
