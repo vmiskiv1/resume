@@ -55,7 +55,7 @@ export const getUserData = createAsyncThunk('user/getUserData', async (username:
 });
 
 export const getUserLanguagePercentage = createAsyncThunk('user/getUserLanguagePercentage', async (repos: any) => {
-  const totalLanguages = {};
+  const totalLanguages: { [key: string]: number } = {};
 
   let totalBytes = 0;
 
@@ -66,11 +66,14 @@ export const getUserLanguagePercentage = createAsyncThunk('user/getUserLanguageP
       const languages = await reposRequest({ url: repo.languages_url });
 
       for (const [language, bytes] of Object.entries(languages)) {
+        const byteCount = bytes as number;
+
         if (!totalLanguages[language]) {
           totalLanguages[language] = 0;
         }
-        totalLanguages[language] += bytes;
-        totalBytes += bytes;
+
+        totalLanguages[language] += byteCount;
+        totalBytes += byteCount;
       }
     } catch (error) {
       console.error(error);
@@ -80,21 +83,21 @@ export const getUserLanguagePercentage = createAsyncThunk('user/getUserLanguageP
   const sortedData = Object.entries(totalLanguages)
     .map(([language, bytes], index) => ({
       id: index,
-      value: ((bytes / totalBytes) * 100).toFixed(2),
+      value: parseFloat(((bytes / totalBytes) * 100).toFixed(2)),
       label: language,
     }))
     .sort((a, b) => b.value - a.value);
 
   const mainLanguages = sortedData.slice(0, LIMIT_LANGUAGES_TO_SHOW);
 
-  const mainLanguagesSum = mainLanguages.reduce((sum, { value }) => sum + parseFloat(value), 0);
+  const mainLanguagesSum = mainLanguages.reduce((sum, { value }) => sum + value, 0);
 
   const othersLanguagesPercentage = (100 - mainLanguagesSum).toFixed(2);
 
   if (Number(othersLanguagesPercentage) > 0) {
     mainLanguages.push({
       id: 4,
-      value: othersLanguagesPercentage,
+      value: parseFloat(othersLanguagesPercentage),
       label: 'Others',
     });
   }
