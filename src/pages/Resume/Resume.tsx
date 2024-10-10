@@ -14,7 +14,8 @@ import {
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { userDataSelector } from "@redux/slices/user";
-import { getUserLanguagePercentage, RepoData } from "@redux/thunks/user";
+import { getUserLanguagePercentage } from "@redux/thunks/user";
+import { RepoData } from "@redux/thunks/user/types";
 import { formattedDate } from "@utils/formattedDate";
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
@@ -35,17 +36,24 @@ export const Resume = () => {
   }, [repos, dispatch]);
 
   function createData(
+    id: number,
     name: string,
     languages_url: string,
     updated_at: string,
     html_url: string
   ) {
-    return { name, languages_url, updated_at, html_url };
+    return { id, name, languages_url, updated_at, html_url };
   }
 
   const rows = useMemo(() => {
     return repos.map((repo: RepoData) =>
-      createData(repo.name, repo.languages_url, repo.updated_at, repo.html_url)
+      createData(
+        repo.id,
+        repo.name,
+        repo.languages_url,
+        repo.updated_at,
+        repo.html_url
+      )
     );
   }, [repos]);
 
