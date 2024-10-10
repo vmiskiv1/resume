@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { reposRequest } from "@api/reposReqeust";
 import { request } from "@api/request";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -63,7 +62,7 @@ export const getUserLanguagePercentage = createAsyncThunk('user/getUserLanguageP
 
   for (const repo of repos) {
     try {
-      const languages = await reposRequest({ url: repo.languages_url });
+      const languages = await request({ url: repo.languages_url });
 
       for (const [language, bytes] of Object.entries(languages)) {
         const byteCount = bytes as number;

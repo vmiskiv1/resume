@@ -1,16 +1,29 @@
-interface requestProps {
-  method?: "GET",
-  endpoint: string;
+interface RequestProps {
+  method?: "GET";
+  endpoint?: string;
+  url?: string;
 }
 
-export const request = async ({ method = "GET", endpoint = "" }: requestProps) => {
+export const request = async ({
+  method = "GET",
+  endpoint = "",
+  url = "",
+}: RequestProps) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_GITHUB_API}/${endpoint}`, {
+    const requestUrl = url || `${import.meta.env.VITE_GITHUB_API}/${endpoint}`;
+
+    const response = await fetch(requestUrl, {
       method,
       headers: {
-        'Authorization': `token ${import.meta.env.VITE_GITHUB_AUTH_TOKEN}`,
-      }
+        Authorization: `token ${import.meta.env.VITE_GITHUB_AUTH_TOKEN}`,
+      },
     });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch: ${response.status} ${response.statusText}`
+      );
+    }
 
     return await response.json();
   } catch (error) {

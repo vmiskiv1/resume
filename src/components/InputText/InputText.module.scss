@@ -1,3 +1,5 @@
+@import "@sass/vars";
+
 .inputTextWrapper {
   gap: 20px;
   max-width: 450px;
@@ -7,7 +9,7 @@
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: $white;
 }
 
 .inputTextError {
